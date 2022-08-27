@@ -1,0 +1,12 @@
+Подключаем нужные зависимости
+Идем на https://mvnrepository.com/
+
+ищем postgresql
+находим PostgreSQL JDBC Driver
+Hibernate будет опираться на этот драйвер
+
+ищем hibernate core
+находим Hibernate ORM Hibernate Core
+
+и соответствующие
+зависимости добавляем в pom

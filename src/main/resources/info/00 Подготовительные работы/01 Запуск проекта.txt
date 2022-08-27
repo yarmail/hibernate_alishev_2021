@@ -1,0 +1,19 @@
+(установка проекта взята из урока 48)
+
+Создаем новый проект с использованием Maven
+File - New Project - Maven
+- галка на create from archetype
+- выбираем maven-archetype-quickstart
+(самый простой проект с подключенным Maven)
+Название - hibernate_alishev_2021
+и Finish
+
+Копируем или создаем .gitignore и README.md
+в корне проекта
+
+---
+
+Создаем папочную структуру
+
+В контекстном меню папки main создаем
+папку resources.
