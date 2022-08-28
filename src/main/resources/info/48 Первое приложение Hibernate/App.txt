@@ -5,6 +5,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+/**
+ * Это версия файла для урока
+ * 48 Первое приложение Hibernate
+ * Здесь просто пробуем технологию
+ */
 public class App {
     public static void main(String[] args) {
         Configuration configuration = new Configuration().addAnnotatedClass(Person.class);
@@ -13,13 +18,9 @@ public class App {
 
         try {
             session.beginTransaction();
-            Person person1 = new Person("Test1", 30);
-            Person person2 = new Person("Test2", 40);
-            Person person3 = new Person("Test3", 50);
-
-            session.save(person1);
-            session.save(person2);
-            session.save(person3);
+            Person person = session.get(Person.class, 1);
+            System.out.println(person.getName());
+            System.out.println(person.getAge());
 
             session.getTransaction().commit();
         } finally {
@@ -40,8 +41,9 @@ hibernate.properties папки resources
 Примечание
 Импорт нужен именно из
 import org.hibernate.cfg.Configuration;
-Idea может предложить импорт этого класса
-из других мест
+
+
+
  */
 /** SessionFactory
 Пока точно не понятно, но вероятно мы к нашей фабрики сессий
@@ -53,15 +55,11 @@ Idea может предложить импорт этого класса
 /** session.beginTransaction();
 здесь мы начинаем наши операции - транзакции
  */
-/** session.get (для урока 48)
+/** session.get
 В текущей сесси мы запрашиваем у БД данные по сущности Person
 и получаем их в объект Person
 Все преобразования из базы производятся автоматически.
 В далее, для проверки выводим полученные данные в консоль
- */
-/** session.save (для урока 49)
-Мы создаем 3 объекта Person
-и передаем их, чтобы hibernate сохранил их в БД
  */
 /** session.getTransaction().commit()
 Закрываем транзакцию методом .commit
@@ -79,6 +77,8 @@ rollback - откатить транзакцию
 /** Что дальше
 Запускаем main
 Видим много красных строк - это норм
-и где-то в конце запрос Hibernate
-и ответ на него
+и где-то в конце
+Запрос Hibernate типа:
+Hibernate: select p1_0.id,p1_0.age,p1_0.name from Person p1_0 where p1_0.id=?
+И наш вывод имени и возраста Person
  */

@@ -1,14 +1,21 @@
 package org.example.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+/**
+ * Эта версия файла для урока
+ * 48 Первое приложение Hibernate
+ * Здесь мы сами управляем генерацией id
+ */
 @Entity
 @Table(name = "Person")
 public class Person {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "name")
@@ -20,7 +27,8 @@ public class Person {
     public Person() {
     }
 
-    public Person(String name, int age) {
+    public Person(int id, String name, int age) {
+        this.id = id;
         this.name = name;
         this.age = age;
     }
@@ -78,28 +86,6 @@ public class Person {
 person_id, то здесь так и можно написать
 @Column(name = "person_id")
 */
-/** @GeneratedValue - генерацией id занимается БД
-strategy = GenerationType.IDENTITY
-Эта стратегия подразумевает автоматическую
-генерацию id базой данных
-В этом случае можно убрать id из конструктора
-
-strategy = GenerationType.SEQUENCE
-Генерацией ID занимается специальный объект Sequence
-базы данных
-В этом случае мы должны указать дополнительную аннотацию
-@SequenceGenerator в которой следующие параметры
-name= указываем имя в Java
-sequenceName= указываем уже существующее имя в БД
-(связываем)
-allocationSize = размер шага приращения, должен быть
-такой же ка и в БД
-
-strategy = GenerationType.Table
-Используется в том случае, если id занимается друга таблица
-
-
- */
 /** @Id - специально отмечаем id
 Обязательная аннотация специально указывает поле Id,
 первичный ключ

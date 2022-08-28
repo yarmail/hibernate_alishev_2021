@@ -5,8 +5,11 @@
 находим PostgreSQL JDBC Driver
 Hibernate будет опираться на этот драйвер
 
-ищем hibernate core
+ищем hibernate core 5.4.28.Final
 находим Hibernate ORM Hibernate Core
+Нужно использовать именно версию
+<version>5.4.28.Final</version>
+На любых других может все сломаться
 
 и соответствующие
 зависимости добавляем в pom
