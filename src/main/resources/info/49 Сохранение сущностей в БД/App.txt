@@ -5,6 +5,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+/*
+Это версия файла для урока 49
+Здесь мы создаем и сохраняем Person в базу
+*/
 public class App {
     public static void main(String[] args) {
         Configuration configuration = new Configuration().addAnnotatedClass(Person.class);
@@ -13,11 +17,13 @@ public class App {
 
         try {
             session.beginTransaction();
+            Person person1 = new Person("Test1", 30);
+            Person person2 = new Person("Test2", 40);
+            Person person3 = new Person("Test3", 50);
 
-            Person person = session.get(Person.class, 2);
-            person.setName("New name");
-            System.out.println(person.getId());
-            session.delete(person);
+            session.save(person1);
+            session.save(person2);
+            session.save(person3);
 
             session.getTransaction().commit();
         } finally {
@@ -56,16 +62,6 @@ Idea может предложить импорт этого класса
 и получаем их в объект Person
 Все преобразования из базы производятся автоматически.
 В далее, для проверки выводим полученные данные в консоль
-
- (Из урока 50)
-Если мы хотим обновить данные пользователя мы просто делаем
-person = session.get() и
-person.setName("New name");
-и Hibernate сам обновит данные в базе
-Также мы можем просто получить id этого person из базы
-person.getId()
-и удалить его из базы
-session.delete(person);
  */
 /** session.save (для урока 49)
 Мы создаем 3 объекта Person
