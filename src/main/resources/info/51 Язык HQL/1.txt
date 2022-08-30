@@ -1,0 +1,54 @@
+51 Язык HQL (Hibernate Query Language)
+
+Если у Hibernate не хватает стандартных средств
+для выполнения запросов, приходится использовать
+SQL подобный язык HQL
+
+HQL похож на SQL, но есть некоторые отличия
+(см hql_sql.png)
+В SQL мы работаем с таблицами, в HQL с сущностями
+(Java классы). В остальном много похожего
+
+---
+
+HQL
+Был разработан, чтобы мы не спускались до уровня
+таблиц, а делали запрос, используя наши сущности.
+
+Конвертируется в SQL (базы не понимают HQL,
+поэтому его надо конвертировать)
+
+В Hibernate можно использовать и обычный SQL
+для сложных запросов, но лучше HQL.
+
+Spring приложение - это обычно комбинация
+Hibernate (+ Spring Data JPA) и SQL
+для нестандартных запросов
+
+---
+
+Разные примеры HQL
+(подставляем разные запросы в App между
+session.beginTransaction() и
+session.getTransaction().commit()
+
+
+Вернуть Список всех людей
+List<Person> people =
+session.createQuery("from Person").getResultList();
+
+Вернуть Список всех людей возрастом больше 30 (age - поле)
+List<Person> people =
+session.createQuery("from Person where age > 30").getResultList();
+
+Вернуть список всех людей, имена которых начинаются на T
+List<Person> people =
+session.createQuery("from Person where name like 'T%'").getResultList();
+
+Изменить имя всех людей, у которых возраст меньше 30 на Test
+session.createQuery("update Person set name='Test' where age < 30")
+.executeUpdate();
+
+Удалить людей, чей возраст меньше 30
+session.createQuery("delete from Person where age < 30")
+.executeUpdate();

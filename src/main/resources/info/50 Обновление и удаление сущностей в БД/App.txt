@@ -5,6 +5,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+
+/**
+ * Эта версия файла для урока
+ * 50 Обновление и удаление сущностей в БД
+ */
 public class App {
     public static void main(String[] args) {
         Configuration configuration = new Configuration().addAnnotatedClass(Person.class);
@@ -14,7 +19,10 @@ public class App {
         try {
             session.beginTransaction();
 
-            session.createQuery("delete from Person where age < 30").executeUpdate();
+            Person person = session.get(Person.class, 2);
+            person.setName("New name");
+            System.out.println(person.getId());
+            session.delete(person);
 
             session.getTransaction().commit();
         } finally {
@@ -67,12 +75,6 @@ session.delete(person);
 /** session.save (для урока 49)
 Мы создаем 3 объекта Person
 и передаем их, чтобы hibernate сохранил их в БД
- */
-/** session.createQuery (для урока 51)
- * Создаем запрос на языке HQL
- * .getResultList() - возвращаем отфильтрованный список,
- * если запрос массовый
- * .executeUpdate() - используется, если мы вносим изменения
  */
 /** session.getTransaction().commit()
 Закрываем транзакцию методом .commit
