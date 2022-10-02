@@ -1,0 +1,37 @@
+52 Отношение One-to-Many в Hibernate
+
+Предположим у нас есть Человек Person
+и у этого человека кесть Заказы Item
+
+Для Person мы используем такие аннотации
+
+public class Person {
+@OneToMany(mappedBy = "owner")
+private List<Item> items;
+}
+
+@OneToMany(mappedBy = "owner")  - используется на родительской сущности
+mappedBy = "owner" - здесь мы указываем название того поля
+в классе Item, которое ссылается на класс Person
+
+
+----------------
+
+Разберем аннотации Item
+(этот класс ещё может нвзываться owning side - владеющая внешним ключом)
+
+public class Item {
+@ManyToOne
+@JoinColumn(name = "person_id", referencedColumnName = "id")
+private Person owner;
+}
+
+@ManyToOne - дочерняя сущность
+
+@JoinColumn(name = "person_id", referencedColumnName = "id") -
+Обозначает колонку - внешний ключ таблицы Item
+referencedColumnName - колонка родительской таблицы, на которую ссылается
+внешний ключ.
+
+копии всех файлов оставлю в этой папке
+
