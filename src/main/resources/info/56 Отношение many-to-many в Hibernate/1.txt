@@ -1,0 +1,31 @@
+56 Отношение many-to-many в Hibernate
+
+(см many_to_many.png)
+
+Работаем с таблицами Актеры Актеры-Фильмы Фильмы
+
+Для выстраивания связи many-to-many есть две аннотации
+@ManeToMany и  @JoinTable
+
+@ManeToMany помечает связь между основными таблицами
+Actor и Movie
+
+@JoinTable помещается указывает на связывающую таблицу
+Actor-Movie и может помещаться на любой стороне
+
+Нет как таковой owning side, т.к. ни одна из сущностей не
+владеет внешним ключом
+
+----
+
+В @JoinTable указывается (
+name = "Actor_Movie", - связывающая таблица
+joinColumns = @JoinColumn(name = "actor_id",
+- указываем колонку, которая принадлежит текущей сущности
+
+inverseJoinColumns = @JoinColumn(name = movie_id))
+- противоположная сторона зависимости
+
+private List<Movie> movies;
+
+
