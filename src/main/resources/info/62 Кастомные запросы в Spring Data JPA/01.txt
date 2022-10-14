@@ -1,0 +1,52 @@
+62 Кастомные запросы в Spring Data JPA
+ВАЖНО Дебаг
+
+@Repository
+public interface PeopleRepository extends JpaRepository<Person, Integer> {
+}
+
+Добавлением в репозиторий одного интерфейса мы уже можем
+в Сервисе использовать все методы CRUD например
+peopleRepository.findAll()
+peopleRepository.findById()
+peopleRepository.save()
+peopleRepository.deleteById()
+
+Не выходя за рамки Spring Data мы можем делать
+расширенный список запросов
+(примеры в Интерфейсе PeopleRepository)
+мы пишем только сигнатуру а JPA реализует
+пример:
+List<Person> findByName(String name);
+Перечень возможных запросов указан здесь:
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#reference
+
+-----------
+
+ТЕСТИРУЕМ МЕТОДЫ ИЗ РЕПОЗИТОРИЯ С ПОМОЩЬЮ ДЕБАГЕРА
+
+Пример
+Начинаем с контроллера PeopleController
+В методе index дополнительно запускаем несколько
+методов сервиса
+
+Hibernate транзакция у нас происходит в Сервисе.
+Ставим Breakpoint (красные круги) в нужные методы
+в сервисе, но не на сами методы, а на другие строки
+
+Запускаем наше приложение в режиме дебагера
+Run - Debug - запускаем Tomcat
+В браузере запускаем http://localhost:8080/people
+в контроллере попадаем в метод index
+Запускается первый метод из Сервиса Item, помеченный
+Breakpoint - findByItemName() и мы попадаем внутрь
+транзакции в Сервис
+Выбираем на нижней панели кнопку с калькулятором
+Evaluate Expression и можем проверить как работает наш медот,
+подтавив ему известные значения
+(см debug1.png)
+Далее нажимаем зеленую стрелку или F9 Resume Program
+(продолжить программу) и мы оказывемся внутри
+следующего метода
+
+

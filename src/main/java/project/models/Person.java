@@ -4,7 +4,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
+// 62 Кастомные запросы в Spring Data JPA
 @Entity
 @Table(name = "Person")
 public class Person {
@@ -26,6 +28,9 @@ public class Person {
     @Email(message = "Email should be valid")
     @Column(name = "email")
     private String email;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Item> items;
 
     public Person() {
 
@@ -68,33 +73,12 @@ public class Person {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
 }
-/** Превращаем наш обычный класс в сущность для Hibernate
-@Entity (сущность)
-Добавляем над классом аннотацию
-
-@Table(name = "Person")
-Связываем с класс с таблицей Person в базе данных
-
-@Id
-В обязательном порядке добавляем аннотацию  над полем id
-
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-Указываем, что генерация id будет происходить
-автоматически в БД
-
-@Column
-Каждому полю в классе назначаем свою колонку в таблице
-
-Конструкторы
-В обязательном порядке добавляем пустой конструктор
-Второй конструктор без id, т.к. он генерируется
-автоматически
- */
-
-
-/**@NotEmpty, @Size, @Min, @NotEmpty
- * Аннотации используются для валидации на представлении
- * т.е. если на форме (на странице) мы зададим неправильный папаметр
- * появится красное предупреждение
- */
