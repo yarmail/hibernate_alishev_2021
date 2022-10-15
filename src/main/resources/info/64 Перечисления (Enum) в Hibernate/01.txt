@@ -1,0 +1,37 @@
+64 Перечисления (Enum) в Hibernate
+
+Добавляем перечисление Mood в models - настроение
+ @Enumerated (EnumType.ORDINAL) -
+ сохраняется индекс перечисления
+ + мало места
+ - если в перечислении поменять местами элементы,
+ номера в БД перепутаются
+
+
+создем новую колонку в DB
+alter table Person add column mood int;
+int - если EnumType.ORDINAL
+
+Теперь в сервисе PeopleService,
+перед сохранением человека
+будем делать ему настроение
+
+    @Transactional
+    public void save(Person person) {
+        person.setCreateAt(new Date());
+        person.setMood(Mood.CALM);
+        peopleRepository.save(person);
+    }
+
+ -----
+
+Если в People.java мы сохранили
+
+@Enumerated (EnumType.STRING),
+private Mood mood;
+
+то в таблице мы должны сделать
+
+alter table Person add column mood varchar;
+и в таблице будет сохранятся его настроение
+а не индекс

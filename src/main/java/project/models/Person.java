@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
-// 63 Дата и время в Hibernate
+// 64 Перечисления (Enum) в Hibernate
 @Entity
 @Table(name = "Person")
 public class Person {
@@ -43,6 +43,10 @@ public class Person {
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createAt;
+
+    //Добавляем настроение
+    @Enumerated (EnumType.STRING)
+    private Mood mood;
 
     public Person() {
 
@@ -109,23 +113,26 @@ public class Person {
     public void setCreateAt(Date createAt) {
         this.createAt = createAt;
     }
+
+    public Mood getMood() {
+        return mood;
+    }
+
+    public void setMood(Mood mood) {
+        this.mood = mood;
+    }
 }
 
 // Примечания
 /**
-Добавляем
- @Column(name = "date_of_birth")
- @Temporal(TemporalType.DATE) - просто тип даты
- @DateTimeFormat(pattern = "dd/MM/yyyy")  (парсер с формы)
- private Date dateOfBirth;
-(если дата будет невалидная, то будет выдаваться чисто
- техническое сообщение об ошибке (не userFriendly)
- Чтобы это исправить нужно делать Spring Validator
+Добавляем перечисление Mood в models - настроение
+ @Enumerated (EnumType.ORDINAL) -
+ сохраняется индекс перечисления
+ + мало места
+ - если в перечислении поменять местами элементы,
+ номера в БД перепутаются
 
- @Column(name = "created_at")
- @Temporal(TemporalType.TIMESTAMP) - тип точное время
- private Date createAt;
-
- Далее переходим в шаблон (представление)
+ @Enumerated (EnumType.STRING) - сохраняется не
+ индекс а строка
 
  */
