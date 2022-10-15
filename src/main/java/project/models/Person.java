@@ -1,12 +1,15 @@
 package project.models;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.List;
 
-// 62 Кастомные запросы в Spring Data JPA
+// 63 Дата и время в Hibernate
 @Entity
 @Table(name = "Person")
 public class Person {
@@ -31,6 +34,15 @@ public class Person {
 
     @OneToMany(mappedBy = "owner")
     private List<Item> items;
+
+    @Column(name = "date_of_birth")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date dateOfBirth;
+
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createAt;
 
     public Person() {
 
@@ -81,4 +93,39 @@ public class Person {
     public void setItems(List<Item> items) {
         this.items = items;
     }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public Date getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
 }
+
+// Примечания
+/**
+Добавляем
+ @Column(name = "date_of_birth")
+ @Temporal(TemporalType.DATE) - просто тип даты
+ @DateTimeFormat(pattern = "dd/MM/yyyy")  (парсер с формы)
+ private Date dateOfBirth;
+(если дата будет невалидная, то будет выдаваться чисто
+ техническое сообщение об ошибке (не userFriendly)
+ Чтобы это исправить нужно делать Spring Validator
+
+ @Column(name = "created_at")
+ @Temporal(TemporalType.TIMESTAMP) - тип точное время
+ private Date createAt;
+
+ Далее переходим в шаблон (представление)
+
+ */

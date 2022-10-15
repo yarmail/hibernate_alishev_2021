@@ -1,0 +1,24 @@
+63 Дата и время в Hibernate
+
+Для примера добавляем колонки
+date_of_birth date;
+и created_at timestamp;
+в базу данных
+
+---
+
+Далее добавляем в Person
+новые поля
+private Date dateOfBirth;
+private Date createAt;
+
+---
+
+далее меняем шаблон (представление)
+new.html
+Поле на форме dateOfBirth будет
+вставлятся через форму в таблицу
+
+а поле createAt мы должны
+самостоятельно добавить через сервис
+PeopleService в момент создания

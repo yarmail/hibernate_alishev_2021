@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.models.Person;
 import project.repositories.PeopleRepository;
+
+import java.util.Date;
 import java.util.List;
 
-// 61 Spring Data JPA
+// 63 Дата и время в Hibernate
 @Service
 @Transactional (readOnly = true)
 public class PeopleService {
@@ -27,8 +29,10 @@ public class PeopleService {
         return peopleRepository.findById(id).orElse(null);
     }
 
+    // добавляем текущее время и дату в момент сохранения
     @Transactional
     public void save(Person person) {
+        person.setCreateAt(new Date());
         peopleRepository.save(person);
     }
 
