@@ -1,0 +1,61 @@
+package project.dao;
+
+import org.hibernate.Session;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import project.models.Person;
+
+import javax.persistence.EntityManager;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Component
+public class PersonDAO {
+
+    private final EntityManager entityManager;
+
+    public PersonDAO(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    // Неправильное решение проблемы N+1
+    @Transactional(readOnly = true)
+    public void testNPlus1() {
+        Session session = entityManager.unwrap(Session.class);
+
+        // 1 запрос
+        List<Person> people = session.createQuery(
+                "select p from Person p", Person.class).getResultList();
+        // N запросов к БД
+        for (Person person: people)
+            System.out.println("Person "
+                    + person.getName() + " has: " + person.getItems());
+    }
+
+    //
+
+    /**
+     * Правильное решение проблемы N+1
+     * в одном запросе мы загрузили и Person и его товары
+     * Как и в обычном JOIN дублируются строки,
+     * поэтому используем Set
+     * При создании Set не забываем подключить к Person
+     * hash и equals
+     */
+    @Transactional(readOnly = true)
+    public void testNPlus2() {
+        Session session = entityManager.unwrap(Session.class);
+        Set<Person> people = new HashSet<Person>(session.createQuery(
+                "select p from Person p left join fetch p.items").getResultList());
+
+        for (Person person: people)
+            System.out.println("Person "
+                    + person.getName() + " has: " + person.getItems());
+    }
+}
+/*
+далее можно подключить метод в контроллере
+и вставить его например в index()
+и проверить в консоли, что выдает Hibernate
+*/

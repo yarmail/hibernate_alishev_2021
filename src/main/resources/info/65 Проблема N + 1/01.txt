@@ -1,0 +1,34 @@
+65 Проблема N + 1
+
+У нас есть таблицы Person Item
+c соотношением One-to-Many
+По умолчанию у нас идет ленивая загрузка
+FetchType.Lazy
+Вызов геттера на человеке подгужает связанные товары
+
+Problem n+1.png
+
+Мы должны сначала получить всех людей
+А потом у каждого загрузить его товары
+
+В БД это так
+select * from Person    1 запрос
+select * from Item where person_id = ?    N запросов
+
+В коде:
+// 1 Query
+List<Person> people = session.createQuery(
+"select p from Person p", Person.class).get.Result();
+
+// N Queries
+for (Person person:people)
+sout (person.getName() +  person.getItems());
+
+---------------
+
+Решение
+Надо делать объединение таблиц (LEFT JOIN например) и работать
+уже с объединенной таблицей -
+(сразу в одном запросе объединяем и подгружаем таблицы,
+а потом делаем выборку - получается решаем проблему за счет памяти
+а не дергаем постоянно сеть)
