@@ -1,5 +1,5 @@
 ### Course Nail Alishev Spring 2019-2021
-Часть N Hibernate (уроки 46-)<br/>
+Часть N Hibernate (уроки 46-70)<br/>
 
 TODO возможно сделать ссылки на другие части проекта во всех частях
 
